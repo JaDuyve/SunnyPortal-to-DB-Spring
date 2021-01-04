@@ -1,5 +1,6 @@
 package jari.duyvejonck.SunnyPortaltoDB.sunnyportal;
 
+import jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth.SunnyPortalAuthenticationInterceptor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +11,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class SunnyPortalService {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+    private SunnyPortalAuthenticationInterceptor interceptor;
 
     @Value("sunny-portal.username")
     private String username;
