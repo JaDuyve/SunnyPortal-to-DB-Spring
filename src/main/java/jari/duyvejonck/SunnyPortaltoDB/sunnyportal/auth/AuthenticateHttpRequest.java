@@ -3,37 +3,23 @@ package jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
-public class SunnyPortalAuthHttpRequest implements HttpRequest {
+public class AuthenticateHttpRequest extends SunnyPortalRequest {
 
     private static final String AUTH_ENDPOINT = "authentication/100";
-
-    private static final HttpMethod REQUEST_METHOD = HttpMethod.GET;
 
     private final SunnyPortalConfig config;
 
     private final URI uri;
 
-    public SunnyPortalAuthHttpRequest(final SunnyPortalConfig config) {
+    public AuthenticateHttpRequest(final SunnyPortalConfig config) {
         this.config = config;
         this.uri = URI.create(this.config.getBaseUrl() + AUTH_ENDPOINT);
-    }
-
-    @Override
-    public final HttpMethod getMethod() {
-        return REQUEST_METHOD;
-    }
-
-    @Override
-    public final String getMethodValue() {
-        return REQUEST_METHOD.name();
     }
 
     @Override

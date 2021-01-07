@@ -11,6 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "sunny-portal")
 public class SunnyPortalConfig {
 
+    private String version;
+
     private String baseUrl;
 
     private String username;
