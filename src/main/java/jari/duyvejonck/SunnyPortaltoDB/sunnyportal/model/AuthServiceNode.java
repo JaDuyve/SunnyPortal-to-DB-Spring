@@ -14,9 +14,6 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AuthServiceNode {
 
-    private static final String DATE_FORMAT = "MM/dd/yyyy hh:mm:ss aaa";
-    private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-
     @JacksonXmlProperty(isAttribute = true, localName = "creation-date")
     private String creationDate;
 
