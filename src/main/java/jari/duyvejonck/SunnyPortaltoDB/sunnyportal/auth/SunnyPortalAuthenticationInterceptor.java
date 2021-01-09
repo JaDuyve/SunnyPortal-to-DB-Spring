@@ -5,7 +5,6 @@ import jari.duyvejonck.SunnyPortaltoDB.sunnyportal.model.AuthServiceNode;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -13,20 +12,15 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.util.UriBuilder;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 
 @Data
 @Slf4j
@@ -34,19 +28,18 @@ import java.text.ParseException;
 public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestInterceptor {
 
 
-    private AuthServiceNode tokenProperties = null;
-
     private final SunnyPortalConfig config;
+
+    private Token tokenProperties = null;
 
     public SunnyPortalAuthenticationInterceptor(final SunnyPortalConfig config) {
         this.config = config;
     }
 
-    @SneakyThrows
     @Override
     public ClientHttpResponse intercept(HttpRequest request,
                                         byte[] body,
-                                        ClientHttpRequestExecution execution) {
+                                        ClientHttpRequestExecution execution) throws IOException {
         final boolean hadToken = hasToken();
         if (!hadToken) {
             authenticate(execution);
@@ -59,38 +52,40 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
                                                       final byte[] requestBody,
                                                       final ClientHttpRequestExecution execution,
                                                       boolean reauthenticateOnUnauthorized) throws IOException {
+        final HttpRequest authenticationRequest;
+
         try {
-            final HttpRequest authenticationRequest = new AuthenticatedHttpRequest(request.getURI(), this.tokenProperties);
-
-            final ClientHttpResponse response = execution.execute(authenticationRequest, requestBody);
-            if (response.getStatusCode() != HttpStatus.UNAUTHORIZED) {
-                return response;
-            }
-
-            log.warn(
-                    "Authentication failed for user [{}] on url [{}:{}].",
-                    this.config.getUsername(),
-                    request.getMethod(),
-                    request.getURI());
-
-            this.tokenProperties = null;
-            if (!reauthenticateOnUnauthorized) {
-                return response;
-            }
-
-            log.warn(
-                    "Re-authenticating user [{}] against SunnyPortal for request [{}:{}]",
-                    this.config.getUsername(),
-                    request.getMethod(),
-                    request.getURI()
-            );
-
-            response.close();
-            authenticate(execution);
-            return doAuthenticatedRequest(request, requestBody, execution, false);
-        } catch (NoSuchAlgorithmException | InvalidKeyException | ParseException e) {
+            authenticationRequest = new AuthenticatedHttpRequest(request.getURI(), this.tokenProperties);
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new IOException(e.getMessage(), e);
         }
+
+        final ClientHttpResponse response = execution.execute(authenticationRequest, requestBody);
+        if (response.getStatusCode() != HttpStatus.UNAUTHORIZED) {
+            return response;
+        }
+
+        log.warn(
+                "Authentication failed for user [{}] on url [{}:{}].",
+                this.config.getUsername(),
+                request.getMethod(),
+                request.getURI());
+
+        this.tokenProperties = null;
+        if (!reauthenticateOnUnauthorized) {
+            return response;
+        }
+
+        log.warn(
+                "Re-authenticating user [{}] against SunnyPortal for request [{}:{}]",
+                this.config.getUsername(),
+                request.getMethod(),
+                request.getURI()
+        );
+
+        response.close();
+        authenticate(execution);
+        return doAuthenticatedRequest(request, requestBody, execution, false);
     }
 
     private boolean hasToken() {
@@ -127,7 +122,7 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
     }
 
 
-    private AuthServiceNode extractAuthProperties(final ClientHttpResponse authResponse) throws IOException, XMLStreamException {
+    private Token extractAuthProperties(final ClientHttpResponse authResponse) throws IOException, XMLStreamException {
         final byte[] responseData = authResponse.getBody().readAllBytes();
 
         final XMLInputFactory f = XMLInputFactory.newFactory();
@@ -136,9 +131,9 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
         XmlMapper xmlMapper = new XmlMapper();
         sr.next();
         sr.next();
-        AuthServiceNode value = xmlMapper.readValue(sr, AuthServiceNode.class);
+        AuthServiceNode responseValue = xmlMapper.readValue(sr, AuthServiceNode.class);
         sr.close();
 
-        return value;
+        return new Token(responseValue.getKey(), responseValue.getIdentifier(), responseValue.getCreationDate());
     }
 }

@@ -1,6 +1,5 @@
 package jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth;
 
-
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -33,9 +32,11 @@ public class AuthenticateHttpRequest extends SunnyPortalRequest {
         final byte[] base64CredentialData = Base64.encodeBase64(credentials.getBytes(StandardCharsets.UTF_8));
 
         final HttpHeaders httpHeaders = new HttpHeaders();
+
         httpHeaders.set("Authorization", "Basic " + new String(base64CredentialData));
         httpHeaders.setContentType(MediaType.APPLICATION_XML);
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
+
         return httpHeaders;
     }
 }

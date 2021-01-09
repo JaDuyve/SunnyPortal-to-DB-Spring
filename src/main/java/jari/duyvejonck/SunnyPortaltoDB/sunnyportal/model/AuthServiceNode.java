@@ -5,9 +5,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Data
 @XmlRootElement(name = "service")
@@ -28,9 +25,13 @@ public class AuthServiceNode {
         return authentication.getIdentifier();
     }
 
-    public String getTimestamp() throws ParseException {
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Authentication {
+        @JacksonXmlProperty(isAttribute = true, localName = "key")
+        private String key;
 
-        final Date date = new SimpleDateFormat(DATE_FORMAT).parse(this.creationDate);
-        return new SimpleDateFormat(TIMESTAMP_FORMAT).format(date);
+        @JacksonXmlProperty(isAttribute = true, localName = "identifier")
+        private String identifier;
     }
 }
