@@ -1,14 +1,11 @@
 package jari.duyvejonck.SunnyPortaltoDB;
 
-import jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth.Token;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -16,8 +13,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @Slf4j
 public class TokenTest {
+
     private final static String SIGNATURE_METHOD = "auth";
     private final static String SIGNATURE_VERSION = "100";
 
@@ -37,37 +37,39 @@ public class TokenTest {
         log.info("timestamp: [{}]", l);
     }
 
+//    @Test
+//    public void generateUrl() throws InvalidKeyException, NoSuchAlgorithmException {
+//        final String method = "get";
+//        final String service = "plantlist";
+//        final String identifier = "aae987e5-926a-4fd0-9b28-b9ec124b6404";
+//        final String key = "63e1aa3a-ae2f-4750-8482-e778a8c429b0";
+//        final String timestamp = "2021-01-10T19:20:25";
+//
+//
+//        final Token tokenProperties = new Token(key, identifier, creationDate);
+//
+//        final URI uri = new DefaultUriBuilderFactory().builder()
+//                .scheme("https")
+//                .host("com.sunny-portal.de")
+//                .path("/services/plantlist")
+//                .pathSegment(SIGNATURE_VERSION, tokenProperties.getIdentifier())
+//                .queryParam("timestamp", tokenProperties.getTimestamp())
+//                .queryParam("signature-method", SIGNATURE_METHOD)
+//                .queryParam("signature-version", SIGNATURE_VERSION)
+//                .queryParam("signature", generateSignature("/services/plantlist", tokenProperties))
+//                .build();
+//
+//        log.info(uri.toString());
+//    }
+
     @Test
-    public void generateUrl() throws InvalidKeyException, NoSuchAlgorithmException {
-        final String identifier = "";
-        final String creationDate = "";
-        final String key = "";
-
-        final Token tokenProperties = new Token(key, identifier, creationDate);
-
-        final URI uri = new DefaultUriBuilderFactory().builder()
-                .scheme("https")
-                .host("com.sunny-portal.de")
-                .path("/services/plantlist")
-                .pathSegment(SIGNATURE_VERSION, tokenProperties.getIdentifier())
-                .queryParam("timestamp", tokenProperties.getTimestamp())
-                .queryParam("signature-method", SIGNATURE_METHOD)
-                .queryParam("signature-version", SIGNATURE_VERSION)
-                .queryParam("signature", generateSignature("/services/plantlist", tokenProperties))
-                .build();
-
-        log.info(uri.toString());
-    }
-
-    private String generateSignature(final String oldURL, final Token tokenProperties) throws NoSuchAlgorithmException, InvalidKeyException {
+    public void generateSignature() throws NoSuchAlgorithmException, InvalidKeyException {
         final String method = "get";
-        final String service = oldURL
-                .substring(oldURL.lastIndexOf('/') + 1)
-                .toLowerCase(Locale.ROOT);
-        final String timestamp = tokenProperties.getTimestamp();
-        final String identifier = tokenProperties.getIdentifier()
-                .toLowerCase(Locale.ROOT);
-        final String key = tokenProperties.getKey();
+        final String service = "plantlist";
+        final String identifier = "aae987e5-926a-4fd0-9b28-b9ec124b6404";
+        final String key = "63e1aa3a-ae2f-4750-8482-e778a8c429b0";
+        final String timestamp = "2021-01-10T19:20:25";
+        final String expectedBase64 = "PVnKX8/xqdKXNUbpOzv250AenAo=";
 
         final SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), HMAC_SHA1_ALGORITHM);
         final Mac mac = Mac.getInstance(HMAC_SHA1_ALGORITHM);
@@ -77,7 +79,8 @@ public class TokenTest {
         mac.update(timestamp.getBytes(StandardCharsets.UTF_8));
         mac.update(identifier.getBytes(StandardCharsets.UTF_8));
 
-        return Base64.encodeBase64String(mac.doFinal());
+        final String base64 = Base64.encodeBase64String(mac.doFinal());
+
     }
 
 }

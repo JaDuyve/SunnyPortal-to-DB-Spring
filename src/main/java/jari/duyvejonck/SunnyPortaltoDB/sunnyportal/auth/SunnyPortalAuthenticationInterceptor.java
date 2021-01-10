@@ -115,7 +115,7 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
 
             this.tokenProperties = extractAuthProperties(authResponse);
 
-            log.debug("Authenticated user [{}] with SunnyPortal, received auth token [{}].", username, this.tokenProperties);
+            log.info("Authenticated user [{}] with SunnyPortal, received auth token [{}].", username, this.tokenProperties);
         } catch (XMLStreamException e) {
             throw new IOException(e.getMessage(), e);
         }
@@ -124,7 +124,7 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
 
     private Token extractAuthProperties(final ClientHttpResponse authResponse) throws IOException, XMLStreamException {
         final byte[] responseData = authResponse.getBody().readAllBytes();
-
+        ;
         final XMLInputFactory f = XMLInputFactory.newFactory();
         final XMLStreamReader sr = f.createXMLStreamReader(new ByteArrayInputStream(responseData));
 

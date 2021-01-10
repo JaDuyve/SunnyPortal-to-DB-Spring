@@ -9,7 +9,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
 
 public class AuthenticatedHttpRequest extends SunnyPortalRequest {
 
@@ -21,27 +20,24 @@ public class AuthenticatedHttpRequest extends SunnyPortalRequest {
     private final URI uri;
 
     public AuthenticatedHttpRequest(final URI baseURI, final Token tokenProperties) throws NoSuchAlgorithmException, InvalidKeyException {
+        final String timestamp = tokenProperties.getTimestamp();
 
         this.uri = new DefaultUriBuilderFactory().builder()
                 .scheme(baseURI.getScheme())
                 .host(baseURI.getHost())
                 .path(baseURI.getPath())
                 .pathSegment(SIGNATURE_VERSION, tokenProperties.getIdentifier())
-                .queryParam("timestamp", tokenProperties.getTimestamp())
+                .queryParam("timestamp", timestamp)
                 .queryParam("signature-method", SIGNATURE_METHOD)
                 .queryParam("signature-version", SIGNATURE_VERSION)
-                .queryParam("signature", generateSignature(baseURI.getPath(), tokenProperties))
+                .queryParam("signature", generateSignature(baseURI.getPath(), timestamp, tokenProperties))
                 .build();
     }
 
-    private String generateSignature(final String oldURL, final Token tokenProperties) throws NoSuchAlgorithmException, InvalidKeyException {
-        final String method = this.getMethodValue().toLowerCase(Locale.ROOT);
-        final String service = oldURL
-                .substring(oldURL.lastIndexOf('/') + 1)
-                .toLowerCase(Locale.ROOT);
-        final String timestamp = tokenProperties.getTimestamp();
-        final String identifier = tokenProperties.getIdentifier()
-                .toLowerCase(Locale.ROOT);
+    private String generateSignature(final String oldURL, final String timestamp, final Token tokenProperties) throws NoSuchAlgorithmException, InvalidKeyException {
+        final String method = this.getMethodValue().toLowerCase();
+        final String service = oldURL.substring(oldURL.lastIndexOf('/') + 1);
+        final String identifier = tokenProperties.getIdentifier();
         final String key = tokenProperties.getKey();
 
         final SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), HMAC_SHA1_ALGORITHM);
