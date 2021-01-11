@@ -1,9 +1,8 @@
-package jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth;
+package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import jari.duyvejonck.SunnyPortaltoDB.sunnyportal.model.AuthServiceNode;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.AuthServiceNode;
 import lombok.Data;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -106,7 +105,7 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
             if (statusCode.isError()) {
                 throw HttpClientErrorException.create(
                         statusCode,
-                        "User [" + username + "] failed to authenticate to SunnyPortal",
+                        "User [" + username + "] failed to authenticate to SunnyPortal.",
                         authResponse.getHeaders(),
                         authResponse.getBody().readAllBytes(),
                         StandardCharsets.UTF_8
@@ -124,7 +123,7 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
 
     private Token extractAuthProperties(final ClientHttpResponse authResponse) throws IOException, XMLStreamException {
         final byte[] responseData = authResponse.getBody().readAllBytes();
-        ;
+
         final XMLInputFactory f = XMLInputFactory.newFactory();
         final XMLStreamReader sr = f.createXMLStreamReader(new ByteArrayInputStream(responseData));
 
@@ -133,6 +132,10 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
         sr.next();
         AuthServiceNode responseValue = xmlMapper.readValue(sr, AuthServiceNode.class);
         sr.close();
+
+        if (responseValue.getKey() == null || responseValue.getIdentifier() == null || responseValue.getCreationDate() == null) {
+            throw new IOException("Not all token properties are present.");
+        }
 
         return new Token(responseValue.getKey(), responseValue.getIdentifier(), responseValue.getCreationDate());
     }

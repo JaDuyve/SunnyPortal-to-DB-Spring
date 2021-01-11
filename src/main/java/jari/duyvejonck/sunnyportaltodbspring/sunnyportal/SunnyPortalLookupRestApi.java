@@ -1,6 +1,6 @@
-package jari.duyvejonck.SunnyPortaltoDB.sunnyportal;
+package jari.duyvejonck.sunnyportaltodbspring.sunnyportal;
 
-import jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth.SunnyPortalConfig;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth.SunnyPortalConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class SunnyPortalLookupRestApi {
 
-    private final static String PLANT_LIST_LOOKUP_ENDPOINT = "plantlist";
+    private final static String PLANT_LIST_LOOKUP_ENDPOINT = "services/plantlist";
 
     private final RestTemplate restTemplate;
     private final SunnyPortalConfig config;

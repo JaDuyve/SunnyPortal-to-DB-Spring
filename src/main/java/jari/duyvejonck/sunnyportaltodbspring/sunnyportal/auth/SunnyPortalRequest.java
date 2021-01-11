@@ -1,4 +1,4 @@
-package jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth;
+package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

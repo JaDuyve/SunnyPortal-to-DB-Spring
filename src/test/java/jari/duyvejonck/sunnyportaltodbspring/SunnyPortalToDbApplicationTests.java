@@ -1,4 +1,4 @@
-package jari.duyvejonck.SunnyPortaltoDB;
+package jari.duyvejonck.sunnyportaltodbspring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

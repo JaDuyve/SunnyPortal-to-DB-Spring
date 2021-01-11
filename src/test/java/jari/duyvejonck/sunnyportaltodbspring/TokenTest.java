@@ -1,4 +1,4 @@
-package jari.duyvejonck.SunnyPortaltoDB;
+package jari.duyvejonck.sunnyportaltodbspring;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
@@ -13,12 +13,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @Slf4j
 public class TokenTest {
 
-    private final static String SIGNATURE_METHOD = "auth";
+    private final static String SIGNATURE_METHOD = "jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth";
     private final static String SIGNATURE_VERSION = "100";
 
     private final static String HMAC_SHA1_ALGORITHM = "HmacSHA1";

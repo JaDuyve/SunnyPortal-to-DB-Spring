@@ -1,4 +1,4 @@
-package jari.duyvejonck.SunnyPortaltoDB.sunnyportal.model;
+package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

@@ -1,4 +1,4 @@
-package jari.duyvejonck.SunnyPortaltoDB.sunnyportal.auth;
+package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public class AuthenticateHttpRequest extends SunnyPortalRequest {
 
-    private static final String AUTH_ENDPOINT = "authentication/100";
+    private static final String AUTH_ENDPOINT = "services/authentication/100";
 
     private final SunnyPortalConfig config;
 
@@ -34,7 +34,6 @@ public class AuthenticateHttpRequest extends SunnyPortalRequest {
         final HttpHeaders httpHeaders = new HttpHeaders();
 
         httpHeaders.set("Authorization", "Basic " + new String(base64CredentialData));
-        httpHeaders.setContentType(MediaType.APPLICATION_XML);
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
 
         return httpHeaders;
