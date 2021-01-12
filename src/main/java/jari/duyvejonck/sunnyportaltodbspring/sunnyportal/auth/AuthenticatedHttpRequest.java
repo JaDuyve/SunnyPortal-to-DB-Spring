@@ -12,10 +12,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class AuthenticatedHttpRequest extends SunnyPortalRequest {
 
-    private final static String SIGNATURE_METHOD = "auth";
-    private final static String SIGNATURE_VERSION = "100";
+    private static final String SIGNATURE_METHOD = "auth";
+    private static final String SIGNATURE_VERSION = "100";
 
-    private final static String HMAC_SHA1_ALGORITHM = "HmacSHA1";
+    private static final String SERVICES_PATH_SEGMENT = "/services";
+
+    private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
     private final URI uri;
 
@@ -26,7 +28,7 @@ public class AuthenticatedHttpRequest extends SunnyPortalRequest {
                 .scheme(baseURI.getScheme())
                 .host(baseURI.getHost())
                 .path(baseURI.getPath())
-                .pathSegment(SIGNATURE_VERSION, tokenProperties.getIdentifier())
+                .pathSegment(tokenProperties.getIdentifier())
                 .queryParam("timestamp", timestamp)
                 .queryParam("signature-method", SIGNATURE_METHOD)
                 .queryParam("signature-version", SIGNATURE_VERSION)
@@ -34,9 +36,9 @@ public class AuthenticatedHttpRequest extends SunnyPortalRequest {
                 .build();
     }
 
-    private String generateSignature(final String oldURL, final String timestamp, final Token tokenProperties) throws NoSuchAlgorithmException, InvalidKeyException {
+    private String generateSignature(final String oldPath, final String timestamp, final Token tokenProperties) throws NoSuchAlgorithmException, InvalidKeyException {
         final String method = this.getMethodValue().toLowerCase();
-        final String service = oldURL.substring(oldURL.lastIndexOf('/') + 1);
+        final String service = extractServiceOfPath(oldPath);
         final String identifier = tokenProperties.getIdentifier();
         final String key = tokenProperties.getKey();
 
@@ -48,7 +50,15 @@ public class AuthenticatedHttpRequest extends SunnyPortalRequest {
         mac.update(timestamp.getBytes(StandardCharsets.UTF_8));
         mac.update(identifier.getBytes(StandardCharsets.UTF_8));
 
-        return Base64.encodeBase64String(mac.doFinal());
+        return Base64.encodeBase64String(mac.doFinal())
+                .replace("\r\n", "");
+    }
+
+    private String extractServiceOfPath(final String path) {
+        final int servicesPathSegmentLength = SERVICES_PATH_SEGMENT.length();
+        final int lastSlashIndex = path.lastIndexOf('/');
+
+        return path.substring(servicesPathSegmentLength + 1, lastSlashIndex);
     }
 
     @Override

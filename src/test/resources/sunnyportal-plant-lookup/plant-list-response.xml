@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sma.sunnyportal.services>
+    <service name="plantlist" view="list" method="get" version="100" request-oid="732efd51-1cd7-4ef3-986d-db014b483da2"
+             creation-date="1/12/2021 5:15:03 PM">
+        <plantlist name="PV System List" count="1">
+            <plant oid="dd1a3875-53d8-4259-8fb2-fc47666f5f82" identifier="d3662986-a1a2-4c38-8c22-2bb73856113f"
+                   name="plant-name" state="unknown"/>
+        </plantlist>
+    </service>
+</sma.sunnyportal.services>

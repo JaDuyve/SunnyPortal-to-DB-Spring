@@ -26,7 +26,6 @@ import java.security.NoSuchAlgorithmException;
 @Component
 public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestInterceptor {
 
-
     private final SunnyPortalConfig config;
 
     private Token tokenProperties = null;
@@ -124,14 +123,14 @@ public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestIn
     private Token extractAuthProperties(final ClientHttpResponse authResponse) throws IOException, XMLStreamException {
         final byte[] responseData = authResponse.getBody().readAllBytes();
 
-        final XMLInputFactory f = XMLInputFactory.newFactory();
-        final XMLStreamReader sr = f.createXMLStreamReader(new ByteArrayInputStream(responseData));
+        final XMLInputFactory factory = XMLInputFactory.newFactory();
+        final XMLStreamReader streamReader = factory.createXMLStreamReader(new ByteArrayInputStream(responseData));
 
         XmlMapper xmlMapper = new XmlMapper();
-        sr.next();
-        sr.next();
-        AuthServiceNode responseValue = xmlMapper.readValue(sr, AuthServiceNode.class);
-        sr.close();
+        streamReader.next();
+        streamReader.next();
+        AuthServiceNode responseValue = xmlMapper.readValue(streamReader, AuthServiceNode.class);
+        streamReader.close();
 
         if (responseValue.getKey() == null || responseValue.getIdentifier() == null || responseValue.getCreationDate() == null) {
             throw new IOException("Not all token properties are present.");

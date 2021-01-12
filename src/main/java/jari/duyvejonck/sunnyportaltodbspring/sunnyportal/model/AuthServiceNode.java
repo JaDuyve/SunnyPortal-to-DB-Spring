@@ -3,11 +3,13 @@ package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
 @XmlRootElement(name = "service")
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AuthServiceNode {
 
@@ -26,6 +28,7 @@ public class AuthServiceNode {
     }
 
     @Data
+    @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Authentication {
         @JacksonXmlProperty(isAttribute = true, localName = "key")
