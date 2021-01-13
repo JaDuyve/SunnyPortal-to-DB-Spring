@@ -1,9 +1,9 @@
 package jari.duyvejonck.sunnyportaltodbspring.sunnyportal;
 
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth.SunnyPortalConfig;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantDayOverview;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantList;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantList.SunnyPortalPlant;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth.SPConfig;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList.SunnyPortalPlant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class SunnyPortalLookupRestApi {
+public class SPLookupRestApi {
 
     private static final String PLANT_LIST_LOOKUP_ENDPOINT = "/services/plantlist/100";
 
@@ -30,10 +30,10 @@ public class SunnyPortalLookupRestApi {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private final RestTemplate restTemplate;
-    private final SunnyPortalConfig config;
+    private final SPConfig config;
 
-    public SunnyPortalLookupRestApi(final RestTemplate restTemplate,
-                                    final SunnyPortalConfig config) {
+    public SPLookupRestApi(final RestTemplate restTemplate,
+                           final SPConfig config) {
         this.restTemplate = restTemplate;
         this.config = config;
     }
@@ -45,14 +45,14 @@ public class SunnyPortalLookupRestApi {
             return;
         }
 
-        final Optional<SunnyPortalPlantDayOverview> dayOverview = getPlantDataForDay(plants.get().get(0).getOid(), LocalDate.now().minusDays(1));
+        final Optional<SPPlantDayOverview> dayOverview = getPlantDataForDay(plants.get().get(0).getOid(), LocalDate.now().minusDays(1));
         log.info("day overview: [{}]", dayOverview);
     }
 
     public Optional<List<SunnyPortalPlant>> getPlantList() {
         final String lookupUrl = "https://" + this.config.getBaseUrl() + PLANT_LIST_LOOKUP_ENDPOINT;
         final byte[] response = this.restTemplate.getForObject(lookupUrl, byte[].class);
-        final Optional<SunnyPortalPlantList> plantList =  SunnyPortalDeserializer.deserialize(SunnyPortalPlantList.class, response);
+        final Optional<SPPlantList> plantList =  SPDeserializer.deserialize(SPPlantList.class, response);
 
         if (plantList.isEmpty()) {
             return Optional.empty();
@@ -61,7 +61,7 @@ public class SunnyPortalLookupRestApi {
         return Optional.of(plantList.get().getPlants());
     }
 
-    public Optional<SunnyPortalPlantDayOverview> getPlantDataForDay(final String plantOID, final LocalDate day) {
+    public Optional<SPPlantDayOverview> getPlantDataForDay(final String plantOID, final LocalDate day) {
         final URI uri = new DefaultUriBuilderFactory().builder()
                 .host(this.config.getBaseUrl())
                 .path(PLANT_DATA_LOOKUP_ENDPOINT)
@@ -70,6 +70,6 @@ public class SunnyPortalLookupRestApi {
                 .build();
         final byte[] response = this.restTemplate.getForObject(uri, byte[].class);
 
-        return SunnyPortalDeserializer.deserialize(SunnyPortalPlantDayOverview.class, response);
+        return SPDeserializer.deserialize(SPPlantDayOverview.class, response);
     }
 }

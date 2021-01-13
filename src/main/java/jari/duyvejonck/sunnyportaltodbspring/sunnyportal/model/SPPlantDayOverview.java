@@ -13,27 +13,27 @@ import java.util.List;
 @NoArgsConstructor
 @JacksonXmlRootElement(localName = "service")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SunnyPortalPlantDayOverview {
+public class SPPlantDayOverview {
 
     @JacksonXmlProperty(localName = "data")
-    private SunnyPortalData data;
+    private SPData data;
 
     @Data
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class SunnyPortalData {
+    public static class SPData {
 
         @JacksonXmlElementWrapper(localName = "overview-day-fifteen-total")
-        private List<SunnyPortalChannel> channels;
+        private List<SPChannel> channels;
     }
 
     @Data
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class SunnyPortalChannel {
+    public static class SPChannel {
 
         @JacksonXmlProperty(localName = "day")
-        private SunnyPortalPlantDay day;
+        private SPPlantDay day;
 
         @JacksonXmlProperty(isAttribute = true, localName = "name")
         private String name;
@@ -45,7 +45,7 @@ public class SunnyPortalPlantDayOverview {
     @Data
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class SunnyPortalPlantDay {
+    public static class SPPlantDay {
 
         @JacksonXmlProperty(isAttribute = true, localName = "timestamp")
         private String timestamp;
@@ -58,12 +58,12 @@ public class SunnyPortalPlantDayOverview {
 
         @JacksonXmlProperty(localName = "fiveteen")
         @JacksonXmlElementWrapper(useWrapping = false)
-        private List<SunnyPortalPlantMeasurement> measurements;
+        private List<SPPlantMeasurement> measurements;
     }
 
     @Data
     @NoArgsConstructor
-    public static class SunnyPortalPlantMeasurement {
+    public static class SPPlantMeasurement {
 
         @JacksonXmlProperty(isAttribute = true, localName = "timestamp")
         private String timestamp;

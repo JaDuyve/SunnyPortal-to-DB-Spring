@@ -15,11 +15,11 @@ class AuthenticateHttpRequestTest {
 
     private static final String USERNAME = "dummy-user";
     private static final String PASSWORD = "dummy-pass";
-    private SunnyPortalConfig config;
+    private SPConfig config;
 
     @BeforeEach
     public void setup() {
-        this.config = new SunnyPortalConfig(
+        this.config = new SPConfig(
                 "http://test-url/some/api",
                 "dummy-user",
                 "dummy-pass"

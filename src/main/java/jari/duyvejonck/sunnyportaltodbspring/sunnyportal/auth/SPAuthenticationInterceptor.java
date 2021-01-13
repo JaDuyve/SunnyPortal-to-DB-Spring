@@ -24,13 +24,13 @@ import java.security.NoSuchAlgorithmException;
 @Data
 @Slf4j
 @Component
-public class SunnyPortalAuthenticationInterceptor implements ClientHttpRequestInterceptor {
+public class SPAuthenticationInterceptor implements ClientHttpRequestInterceptor {
 
-    private final SunnyPortalConfig config;
+    private final SPConfig config;
 
     private Token tokenProperties = null;
 
-    public SunnyPortalAuthenticationInterceptor(final SunnyPortalConfig config) {
+    public SPAuthenticationInterceptor(final SPConfig config) {
         this.config = config;
     }
 

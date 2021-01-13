@@ -9,15 +9,15 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
-public class AuthenticateHttpRequest extends SunnyPortalRequest {
+public class AuthenticateHttpRequest extends SPRequest {
 
     private static final String AUTH_ENDPOINT = "services/authentication/100";
 
-    private final SunnyPortalConfig config;
+    private final SPConfig config;
 
     private final URI uri;
 
-    public AuthenticateHttpRequest(final SunnyPortalConfig config) {
+    public AuthenticateHttpRequest(final SPConfig config) {
         this.config = config;
         this.uri = new DefaultUriBuilderFactory().builder()
                 .scheme(this.getScheme())

@@ -19,16 +19,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class SunnyPortalAuthenticationInterceptorTest {
+public class SPAuthenticationInterceptorTest {
 
     private static final byte[] REQUEST_BODY = new byte[123];
 
-    private SunnyPortalConfig config;
+    private SPConfig config;
     private HttpRequest request;
 
     @BeforeEach
     public void setup() {
-        this.config = new SunnyPortalConfig(
+        this.config = new SPConfig(
                 "http://test-url/api-path/",
                 "dummy-user",
                 "dummy-password"
@@ -43,7 +43,7 @@ public class SunnyPortalAuthenticationInterceptorTest {
 
     @Test
     public void testFailedAuthentication() throws IOException {
-        final SunnyPortalAuthenticationInterceptor interceptor = new SunnyPortalAuthenticationInterceptor(this.config);
+        final SPAuthenticationInterceptor interceptor = new SPAuthenticationInterceptor(this.config);
 
         final ClientHttpRequestExecution execution = mock(ClientHttpRequestExecution.class);
         when(execution.execute(any(), any()))
@@ -54,7 +54,7 @@ public class SunnyPortalAuthenticationInterceptorTest {
 
     @Test
     public void testFailedAuthenticationAfterLogin() throws IOException {
-        final SunnyPortalAuthenticationInterceptor interceptor = new SunnyPortalAuthenticationInterceptor(this.config);
+        final SPAuthenticationInterceptor interceptor = new SPAuthenticationInterceptor(this.config);
         final ClientHttpRequestExecution execution = mock(ClientHttpRequestExecution.class);
         when(execution.execute(any(), any()))
                 .thenReturn(new MockClientHttpResponse(HttpStatus.OK, "auth-success-response.xml"))
@@ -68,7 +68,7 @@ public class SunnyPortalAuthenticationInterceptorTest {
 
     @Test
     public void testReAuthentication() throws IOException {
-        final SunnyPortalAuthenticationInterceptor interceptor = new SunnyPortalAuthenticationInterceptor(this.config);
+        final SPAuthenticationInterceptor interceptor = new SPAuthenticationInterceptor(this.config);
 
         final ClientHttpRequestExecution execution = mock(ClientHttpRequestExecution.class);
         when(execution.execute(any(), any()))
@@ -104,7 +104,7 @@ public class SunnyPortalAuthenticationInterceptorTest {
 
     @Test
     public void testMissingKey() throws IOException {
-        final SunnyPortalAuthenticationInterceptor interceptor = new SunnyPortalAuthenticationInterceptor(this.config);
+        final SPAuthenticationInterceptor interceptor = new SPAuthenticationInterceptor(this.config);
 
         final ClientHttpRequestExecution execution = mock(ClientHttpRequestExecution.class);
         when(execution.execute(any(), any()))
@@ -115,7 +115,7 @@ public class SunnyPortalAuthenticationInterceptorTest {
 
     @Test
     public void testMissingIdentifier() throws IOException {
-        final SunnyPortalAuthenticationInterceptor interceptor = new SunnyPortalAuthenticationInterceptor(this.config);
+        final SPAuthenticationInterceptor interceptor = new SPAuthenticationInterceptor(this.config);
 
         final ClientHttpRequestExecution execution = mock(ClientHttpRequestExecution.class);
         when(execution.execute(any(), any()))
@@ -126,7 +126,7 @@ public class SunnyPortalAuthenticationInterceptorTest {
 
     @Test
     public void testMissingCreationDate() throws IOException {
-        final SunnyPortalAuthenticationInterceptor interceptor = new SunnyPortalAuthenticationInterceptor(this.config);
+        final SPAuthenticationInterceptor interceptor = new SPAuthenticationInterceptor(this.config);
 
         final ClientHttpRequestExecution execution = mock(ClientHttpRequestExecution.class);
         when(execution.execute(any(), any()))

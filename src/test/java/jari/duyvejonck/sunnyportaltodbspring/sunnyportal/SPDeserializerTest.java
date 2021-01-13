@@ -1,10 +1,10 @@
 package jari.duyvejonck.sunnyportaltodbspring.sunnyportal;
 
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantDayOverview;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantDayOverview.SunnyPortalChannel;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantDayOverview.SunnyPortalPlantDay;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantList;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantList.SunnyPortalPlant;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview.SPChannel;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview.SPPlantDay;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList;
+import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList.SunnyPortalPlant;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -18,7 +18,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SunnyPortalDeserializerTest {
+class SPDeserializerTest {
 
     // TODO - add more test for failed state and more than 1 plant
 
@@ -27,7 +27,7 @@ class SunnyPortalDeserializerTest {
         final Optional<String> validPlantListResponse = readTestXmlFile("sunnyportal-plant-lookup/plant-list-response.xml");
         assertTrue(validPlantListResponse.isPresent());
 
-        final Optional<SunnyPortalPlantList> optional = SunnyPortalDeserializer.deserialize(SunnyPortalPlantList.class, validPlantListResponse
+        final Optional<SPPlantList> optional = SPDeserializer.deserialize(SPPlantList.class, validPlantListResponse
                 .get()
                 .getBytes(StandardCharsets.UTF_8));
 
@@ -45,15 +45,15 @@ class SunnyPortalDeserializerTest {
         final Optional<String> validPlantDayOverviewResponse = readTestXmlFile("sunnyportal-plant-lookup/plant-day-overview-response.xml");
         assertTrue(validPlantDayOverviewResponse.isPresent());
 
-        final Optional<SunnyPortalPlantDayOverview> optional = SunnyPortalDeserializer.deserialize(SunnyPortalPlantDayOverview.class,
+        final Optional<SPPlantDayOverview> optional = SPDeserializer.deserialize(SPPlantDayOverview.class,
                 validPlantDayOverviewResponse
                         .get()
                         .getBytes(StandardCharsets.UTF_8));
 
 
         assertTrue(optional.isPresent());
-        final SunnyPortalPlantDayOverview dayOverview = optional.get();
-        final List<SunnyPortalChannel> channels = dayOverview.getData().getChannels();
+        final SPPlantDayOverview dayOverview = optional.get();
+        final List<SPChannel> channels = dayOverview.getData().getChannels();
         final String expectedDayTimestamp = "11/01/2021";
         final List<String> expectedChannelNames = new ArrayList<>(Arrays.asList("Power", "Total yield"));
         final List<String> expectedChannelUnits = new ArrayList<>(Arrays.asList("kW", "kWh"));
@@ -63,11 +63,11 @@ class SunnyPortalDeserializerTest {
 
 
         for (int i = 0; i < channels.size(); i++) {
-            final SunnyPortalChannel channel = channels.get(i);
+            final SPChannel channel = channels.get(i);
             assertEquals(expectedChannelNames.get(i), channel.getName());
             assertEquals(expectedChannelUnits.get(i), channel.getUnit());
 
-            final SunnyPortalPlantDay overview = channel.getDay();
+            final SPPlantDay overview = channel.getDay();
             assertEquals(expectedDayTimestamp, overview.getTimestamp());
 
             if (i == 0) {

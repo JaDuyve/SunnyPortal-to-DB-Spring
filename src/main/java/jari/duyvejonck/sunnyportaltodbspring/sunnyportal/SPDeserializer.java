@@ -9,7 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-public class SunnyPortalDeserializer {
+public class SPDeserializer {
 
     public static <T> Optional<T> deserialize(final Class<T> type, final byte[] data) {
         final XMLInputFactory factory = XMLInputFactory.newFactory();

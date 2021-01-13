@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-public class AuthenticatedHttpRequest extends SunnyPortalRequest {
+public class AuthenticatedHttpRequest extends SPRequest {
 
     private static final String SIGNATURE_METHOD = "auth";
     private static final String SIGNATURE_VERSION = "100";

@@ -6,7 +6,7 @@ import org.springframework.http.HttpRequest;
 
 import java.net.URI;
 
-public abstract class SunnyPortalRequest implements HttpRequest {
+public abstract class SPRequest implements HttpRequest {
 
     private static final HttpMethod REQUEST_METHOD = HttpMethod.GET;
     private static final String SCHEME = "https";

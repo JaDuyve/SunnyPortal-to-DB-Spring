@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "sunny-portal")
-public class SunnyPortalConfig {
+public class SPConfig {
 
     private String baseUrl;
 

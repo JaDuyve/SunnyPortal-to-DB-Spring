@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @JacksonXmlRootElement(localName = "service")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SunnyPortalPlantList {
+public class SPPlantList {
 
     @JacksonXmlElementWrapper(localName = "plantlist")
     private List<SunnyPortalPlant> plants;
