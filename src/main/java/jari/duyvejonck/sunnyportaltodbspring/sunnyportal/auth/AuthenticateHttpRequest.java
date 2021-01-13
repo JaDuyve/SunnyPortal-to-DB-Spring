@@ -3,6 +3,7 @@ package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +19,11 @@ public class AuthenticateHttpRequest extends SunnyPortalRequest {
 
     public AuthenticateHttpRequest(final SunnyPortalConfig config) {
         this.config = config;
-        this.uri = URI.create(this.config.getBaseUrl() + AUTH_ENDPOINT);
+        this.uri = new DefaultUriBuilderFactory().builder()
+                .scheme(this.getScheme())
+                .host(this.config.getBaseUrl())
+                .path(AUTH_ENDPOINT)
+                .build();
     }
 
     @Override

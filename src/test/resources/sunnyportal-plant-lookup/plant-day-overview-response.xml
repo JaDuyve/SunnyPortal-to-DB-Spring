@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sma.sunnyportal.services>
+    <service name="data" method="get" version="100" request-oid="9ccaafb6-ac50-4c6b-886c-90d555236ea2"
+             creation-date="1/12/2021 12:13:04 PM">
+        <data>
+            <overview-day-fifteen-total>
+                <channel name="Power" meta-name="Power" unit="kW">
+                    <day timestamp="11/01/2021">
+                        <fiveteen timestamp="00:15"/>
+                        <fiveteen timestamp="00:30"/>
+                        <fiveteen timestamp="00:45"/>
+                        <fiveteen timestamp="01:00"/>
+                        <fiveteen timestamp="01:15"/>
+                        <fiveteen timestamp="01:30"/>
+                        <fiveteen timestamp="01:45"/>
+                        <fiveteen timestamp="02:00"/>
+                        <fiveteen timestamp="02:15"/>
+                        <fiveteen timestamp="02:30"/>
+                        <fiveteen timestamp="02:45"/>
+                        <fiveteen timestamp="03:00"/>
+                        <fiveteen timestamp="03:15"/>
+                        <fiveteen timestamp="03:30"/>
+                        <fiveteen timestamp="03:45"/>
+                        <fiveteen timestamp="04:00"/>
+                        <fiveteen timestamp="04:15"/>
+                        <fiveteen timestamp="04:30"/>
+                        <fiveteen timestamp="04:45"/>
+                        <fiveteen timestamp="05:00"/>
+                        <fiveteen timestamp="05:15"/>
+                        <fiveteen timestamp="05:30"/>
+                        <fiveteen timestamp="05:45"/>
+                        <fiveteen timestamp="06:00"/>
+                        <fiveteen timestamp="06:15"/>
+                        <fiveteen timestamp="06:30"/>
+                        <fiveteen timestamp="06:45"/>
+                        <fiveteen timestamp="07:00"/>
+                        <fiveteen timestamp="07:15"/>
+                        <fiveteen timestamp="07:30"/>
+                        <fiveteen timestamp="07:45"/>
+                        <fiveteen timestamp="08:00"/>
+                        <fiveteen timestamp="08:15"/>
+                        <fiveteen timestamp="08:30"/>
+                        <fiveteen timestamp="08:45"/>
+                        <fiveteen timestamp="09:00" min="0" max="0" mean="0"/>
+                        <fiveteen timestamp="09:15" min="0" max="0" mean="0"/>
+                        <fiveteen timestamp="09:30" min="0" max="0.036" mean="0.016"/>
+                        <fiveteen timestamp="09:45" min="0.043" max="0.094" mean="0.069"/>
+                        <fiveteen timestamp="10:00" min="0.095" max="0.106" mean="0.099"/>
+                        <fiveteen timestamp="10:15" min="0.099" max="0.115" mean="0.108"/>
+                        <fiveteen timestamp="10:30" min="0.054" max="0.081" mean="0.063"/>
+                        <fiveteen timestamp="10:45" min="0.094" max="0.147" mean="0.119"/>
+                        <fiveteen timestamp="11:00" min="0.114" max="0.147" mean="0.131"/>
+                        <fiveteen timestamp="11:15" min="0.169" max="0.263" mean="0.224"/>
+                        <fiveteen timestamp="11:30" min="0.233" max="0.34" mean="0.269"/>
+                        <fiveteen timestamp="11:45" min="0.357" max="0.462" mean="0.4"/>
+                        <fiveteen timestamp="12:00" min="0.385" max="0.425" mean="0.405"/>
+                        <fiveteen timestamp="12:15" min="0.138" max="0.207" mean="0.184"/>
+                        <fiveteen timestamp="12:30" min="0.131" max="0.174" mean="0.148"/>
+                        <fiveteen timestamp="12:45" min="0.117" max="0.179" mean="0.14"/>
+                        <fiveteen timestamp="13:00" min="0.181" max="0.292" mean="0.22"/>
+                        <fiveteen timestamp="13:15" min="0.365" max="0.416" mean="0.385"/>
+                        <fiveteen timestamp="13:30" min="0.513" max="0.777" mean="0.601"/>
+                        <fiveteen timestamp="13:45" min="0.678" max="0.789" mean="0.715"/>
+                        <fiveteen timestamp="14:00" min="0.223" max="0.368" mean="0.272"/>
+                        <fiveteen timestamp="14:15" min="0.219" max="0.396" mean="0.285"/>
+                        <fiveteen timestamp="14:30" min="0.162" max="0.236" mean="0.199"/>
+                        <fiveteen timestamp="14:45" min="0.126" max="0.15" mean="0.141"/>
+                        <fiveteen timestamp="15:00" min="0.191" max="0.439" mean="0.349"/>
+                        <fiveteen timestamp="15:15" min="0.165" max="0.274" mean="0.234"/>
+                        <fiveteen timestamp="15:30" min="0.165" max="0.189" mean="0.174"/>
+                        <fiveteen timestamp="15:45" min="0.115" max="0.124" mean="0.121"/>
+                        <fiveteen timestamp="16:00" min="0.141" max="0.198" mean="0.171"/>
+                        <fiveteen timestamp="16:15" min="0.066" max="0.137" mean="0.093"/>
+                        <fiveteen timestamp="16:30" min="0.022" max="0.056" mean="0.043"/>
+                        <fiveteen timestamp="16:45" min="0" max="0.002" mean="0.001"/>
+                        <fiveteen timestamp="17:00" min="0" max="0" mean="0"/>
+                        <fiveteen timestamp="17:15"/>
+                        <fiveteen timestamp="17:30"/>
+                        <fiveteen timestamp="17:45"/>
+                        <fiveteen timestamp="18:00"/>
+                        <fiveteen timestamp="18:15"/>
+                        <fiveteen timestamp="18:30"/>
+                        <fiveteen timestamp="18:45"/>
+                        <fiveteen timestamp="19:00"/>
+                        <fiveteen timestamp="19:15"/>
+                        <fiveteen timestamp="19:30"/>
+                        <fiveteen timestamp="19:45"/>
+                        <fiveteen timestamp="20:00"/>
+                        <fiveteen timestamp="20:15"/>
+                        <fiveteen timestamp="20:30"/>
+                        <fiveteen timestamp="20:45"/>
+                        <fiveteen timestamp="21:00"/>
+                        <fiveteen timestamp="21:15"/>
+                        <fiveteen timestamp="21:30"/>
+                        <fiveteen timestamp="21:45"/>
+                        <fiveteen timestamp="22:00"/>
+                        <fiveteen timestamp="22:15"/>
+                        <fiveteen timestamp="22:30"/>
+                        <fiveteen timestamp="22:45"/>
+                        <fiveteen timestamp="23:00"/>
+                        <fiveteen timestamp="23:15"/>
+                        <fiveteen timestamp="23:30"/>
+                        <fiveteen timestamp="23:45"/>
+                        <fiveteen timestamp="00:00"/>
+                    </day>
+                </channel>
+                <channel name="Total yield" meta-name="Energy" unit="kWh">
+                    <day timestamp="11/01/2021" absolute="4807.241" difference="1.655"/>
+                </channel>
+            </overview-day-fifteen-total>
+        </data>
+    </service>
+</sma.sunnyportal.services>

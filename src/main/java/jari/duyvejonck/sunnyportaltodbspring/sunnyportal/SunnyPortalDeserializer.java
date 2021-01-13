@@ -1,8 +1,6 @@
 package jari.duyvejonck.sunnyportaltodbspring.sunnyportal;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SunnyPortalPlantList;
-import org.springframework.stereotype.Component;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -11,24 +9,18 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-@Component
 public class SunnyPortalDeserializer {
 
-    private final XMLInputFactory factory;
-    private final XmlMapper mapper;
+    public static <T> Optional<T> deserialize(final Class<T> type, final byte[] data) {
+        final XMLInputFactory factory = XMLInputFactory.newFactory();
+        final XmlMapper mapper = new XmlMapper();
 
-    public SunnyPortalDeserializer() {
-        this.factory = XMLInputFactory.newFactory();
-        this.mapper = new XmlMapper();
-    }
-
-    public Optional<SunnyPortalPlantList> deserializeToPlantList(final byte[] data) {
         try {
             final XMLStreamReader streamReader = factory.createXMLStreamReader(new ByteArrayInputStream(data));
 
             streamReader.next();
             streamReader.next();
-            final SunnyPortalPlantList plantList = this.mapper.readValue(streamReader, SunnyPortalPlantList.class);
+            final T plantList = mapper.readValue(streamReader, type);
             streamReader.close();
 
             return Optional.of(plantList);

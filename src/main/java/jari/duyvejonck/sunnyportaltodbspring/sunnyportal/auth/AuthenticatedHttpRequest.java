@@ -2,6 +2,7 @@ package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -22,17 +23,31 @@ public class AuthenticatedHttpRequest extends SunnyPortalRequest {
     private final URI uri;
 
     public AuthenticatedHttpRequest(final URI baseURI, final Token tokenProperties) throws NoSuchAlgorithmException, InvalidKeyException {
-        final String timestamp = tokenProperties.getTimestamp();
+        this.uri = buildURI(baseURI, tokenProperties);
+    }
 
-        this.uri = new DefaultUriBuilderFactory().builder()
-                .scheme(baseURI.getScheme())
+    private URI buildURI(final URI baseURI, final Token tokenProperties) throws InvalidKeyException, NoSuchAlgorithmException {
+        final String timestamp = tokenProperties.getTimestamp();
+        final String signature = generateSignature(baseURI.getPath(), timestamp, tokenProperties);
+
+        UriBuilder builder = new DefaultUriBuilderFactory().builder()
+                .scheme(this.getScheme())
                 .host(baseURI.getHost())
-                .path(baseURI.getPath())
-                .pathSegment(tokenProperties.getIdentifier())
+                .path(baseURI.getPath());
+
+        if (baseURI.getRawQuery() == null) {
+            builder = builder.pathSegment(tokenProperties.getIdentifier());
+        } else {
+            builder = builder
+                    .query(baseURI.getQuery())
+                    .queryParam("identifier", tokenProperties.getIdentifier());
+        }
+
+        return builder
                 .queryParam("timestamp", timestamp)
                 .queryParam("signature-method", SIGNATURE_METHOD)
                 .queryParam("signature-version", SIGNATURE_VERSION)
-                .queryParam("signature", generateSignature(baseURI.getPath(), timestamp, tokenProperties))
+                .queryParam("signature", signature)
                 .build();
     }
 
@@ -56,7 +71,7 @@ public class AuthenticatedHttpRequest extends SunnyPortalRequest {
 
     private String extractServiceOfPath(final String path) {
         final int servicesPathSegmentLength = SERVICES_PATH_SEGMENT.length();
-        final int lastSlashIndex = path.lastIndexOf('/');
+        final int lastSlashIndex = path.indexOf("/" + SIGNATURE_VERSION);
 
         return path.substring(servicesPathSegmentLength + 1, lastSlashIndex);
     }

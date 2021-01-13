@@ -20,9 +20,9 @@ public class SunnyPortalPlantList {
     private List<SunnyPortalPlant> plants;
 
     @Data
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JacksonXmlRootElement(localName = "plant")
     @NoArgsConstructor
+    @JacksonXmlRootElement(localName = "plant")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class SunnyPortalPlant {
 
         @JacksonXmlProperty(isAttribute = true, localName = "oid")
