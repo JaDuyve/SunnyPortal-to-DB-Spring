@@ -1,7 +1,7 @@
 package jari.duyvejonck.sunnyportaltodbspring.config;
 
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth.SPAuthenticationInterceptor;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth.SPConfig;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.auth.SPAuthenticationInterceptor;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.auth.SPConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,7 @@
 package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth;
 
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.auth.AuthenticateHttpRequest;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.auth.SPConfig;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

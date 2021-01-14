@@ -1,10 +1,11 @@
 package jari.duyvejonck.sunnyportaltodbspring.sunnyportal;
 
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview.SPChannel;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview.SPPlantDay;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList.SunnyPortalPlant;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.SPDeserializer;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantDayOverview;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantDayOverview.SPChannel;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantDayOverview.SPPlantDay;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantList;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantList.SPPlant;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -32,7 +33,7 @@ class SPDeserializerTest {
                 .getBytes(StandardCharsets.UTF_8));
 
         assertTrue(optional.isPresent());
-        final List<SunnyPortalPlant> plantList = optional.get().getPlants();
+        final List<SPPlant> plantList = optional.get().getPlants();
         final String expectedOid = "dd1a3875-53d8-4259-8fb2-fc47666f5f82";
         final String expectedName = "plant-name";
 

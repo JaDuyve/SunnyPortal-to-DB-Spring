@@ -1,9 +1,10 @@
-package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model;
+package jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -63,6 +64,7 @@ public class SPPlantDayOverview {
 
     @Data
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class SPPlantMeasurement {
 
         @JacksonXmlProperty(isAttribute = true, localName = "timestamp")

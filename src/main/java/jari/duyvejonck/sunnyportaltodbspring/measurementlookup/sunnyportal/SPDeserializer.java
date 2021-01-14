@@ -1,4 +1,4 @@
-package jari.duyvejonck.sunnyportaltodbspring.sunnyportal;
+package jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 

@@ -2,7 +2,7 @@ package jari.duyvejonck.sunnyportaltodbspring;
 
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.AuthServiceNode;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.AuthServiceNode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

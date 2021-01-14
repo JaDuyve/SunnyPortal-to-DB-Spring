@@ -1,4 +1,4 @@
-package jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth;
+package jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.auth;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.util.DefaultUriBuilderFactory;

@@ -1,9 +1,9 @@
-package jari.duyvejonck.sunnyportaltodbspring.sunnyportal;
+package jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal;
 
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.auth.SPConfig;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantDayOverview;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList;
-import jari.duyvejonck.sunnyportaltodbspring.sunnyportal.model.SPPlantList.SunnyPortalPlant;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.auth.SPConfig;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantDayOverview;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantList;
+import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantList.SPPlant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -40,7 +40,7 @@ public class SPLookupRestApi {
 
     @PostConstruct
     public void test() {
-        final Optional<List<SunnyPortalPlant>> plants = getPlantList();
+        final Optional<List<SPPlant>> plants = getPlantList();
         if (plants.isEmpty()) {
             return;
         }
@@ -49,7 +49,7 @@ public class SPLookupRestApi {
         log.info("day overview: [{}]", dayOverview);
     }
 
-    public Optional<List<SunnyPortalPlant>> getPlantList() {
+    public Optional<List<SPPlant>> getPlantList() {
         final String lookupUrl = "https://" + this.config.getBaseUrl() + PLANT_LIST_LOOKUP_ENDPOINT;
         final byte[] response = this.restTemplate.getForObject(lookupUrl, byte[].class);
         final Optional<SPPlantList> plantList =  SPDeserializer.deserialize(SPPlantList.class, response);
