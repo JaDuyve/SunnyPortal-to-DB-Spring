@@ -1,17 +1,16 @@
 package jari.duyvejonck.sunnyportaltodbspring.persistance;
 
+import jari.duyvejonck.sunnyportaltodbspring.Utils.ConvertUtils;
 import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantDayOverview.SPPlantMeasurement;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Data
+@Table(name = "measurement")
 public class Measurement {
 
     private static final String TIMESTAMP_FORMAT_PATTERN = "dd/MM/yyyy HH:mm";
@@ -29,26 +28,30 @@ public class Measurement {
     private LocalDateTime timestamp;
 
     @Column(name = "min")
-    private double min;
+    private int min;
 
     @Column(name = "max")
-    private double max;
+    private int max;
 
     @Column(name = "mean")
-    private double mean;
+    private int mean;
 
     public Measurement(final SPPlantMeasurement measurement,
-                       final String plantOid,
+                       final UUID plantOID,
                        final String plantName,
                        final String date) {
-        this.plantOID = UUID.fromString(plantOid);
+        this.plantOID = plantOID;
         this.plantName = plantName;
-        this.min = measurement.getMin();
-        this.max = measurement.getMax();
-        this.mean = measurement.getMean();
+        this.min = ConvertUtils.kwToW(measurement.getMin());
+        this.max = ConvertUtils.kwToW(measurement.getMax());
+        this.mean = ConvertUtils.kwToW(measurement.getMean());
 
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT_PATTERN);
         this.timestamp = LocalDateTime.parse(date + ' ' + measurement.getTimestamp(), formatter);
+    }
+
+    public boolean isAfter(final LocalDateTime timestamp) {
+        return this.timestamp.isAfter(timestamp);
     }
 
 }

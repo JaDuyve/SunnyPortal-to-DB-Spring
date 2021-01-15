@@ -19,6 +19,20 @@ public class SPPlantDayOverview {
     @JacksonXmlProperty(localName = "data")
     private SPData data;
 
+    public SPPlantDay getPowerData() {
+        return this.data
+                .getChannels()
+                .get(0)
+                .getDay();
+    }
+
+    public SPPlantDay getTotalYieldDay() {
+        return this.data
+                .getChannels()
+                .get(1)
+                .getDay();
+    }
+
     @Data
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)

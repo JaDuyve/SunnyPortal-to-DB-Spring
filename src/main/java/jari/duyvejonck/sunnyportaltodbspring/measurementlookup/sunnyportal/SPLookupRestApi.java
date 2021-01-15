@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import javax.annotation.PostConstruct;
 import java.net.URI;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -38,17 +38,6 @@ public class SPLookupRestApi {
         this.config = config;
     }
 
-    @PostConstruct
-    public void test() {
-        final Optional<List<SPPlant>> plants = getPlantList();
-        if (plants.isEmpty()) {
-            return;
-        }
-
-        final Optional<SPPlantDayOverview> dayOverview = getPlantDataForDay(plants.get().get(0).getOid(), LocalDate.now().minusDays(1));
-        log.info("day overview: [{}]", dayOverview);
-    }
-
     public Optional<List<SPPlant>> getPlantList() {
         final String lookupUrl = "https://" + this.config.getBaseUrl() + PLANT_LIST_LOOKUP_ENDPOINT;
         final byte[] response = this.restTemplate.getForObject(lookupUrl, byte[].class);
@@ -61,11 +50,13 @@ public class SPLookupRestApi {
         return Optional.of(plantList.get().getPlants());
     }
 
-    public Optional<SPPlantDayOverview> getPlantDataForDay(final String plantOID, final LocalDate day) {
+    public Optional<SPPlantDayOverview> getPlantDataForDay(final UUID plantOID, final LocalDateTime day) {
         final URI uri = new DefaultUriBuilderFactory().builder()
                 .host(this.config.getBaseUrl())
                 .path(PLANT_DATA_LOOKUP_ENDPOINT)
-                .pathSegment(plantOID, DAY_OVERVIEW, day.format(DateTimeFormatter.ofPattern(DATE_FORMAT)))
+                .pathSegment(plantOID.toString(),
+                        DAY_OVERVIEW,
+                        day.format(DateTimeFormatter.ofPattern(DATE_FORMAT)))
                 .queryParam("culture", CULTURE)
                 .build();
         final byte[] response = this.restTemplate.getForObject(uri, byte[].class);

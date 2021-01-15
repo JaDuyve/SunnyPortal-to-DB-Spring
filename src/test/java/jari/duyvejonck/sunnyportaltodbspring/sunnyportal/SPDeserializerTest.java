@@ -37,7 +37,7 @@ class SPDeserializerTest {
         final String expectedOid = "dd1a3875-53d8-4259-8fb2-fc47666f5f82";
         final String expectedName = "plant-name";
 
-        assertEquals(expectedOid, plantList.get(0).getOid());
+        assertEquals(expectedOid, plantList.get(0).getOID());
         assertEquals(expectedName, plantList.get(0).getName());
     }
 
