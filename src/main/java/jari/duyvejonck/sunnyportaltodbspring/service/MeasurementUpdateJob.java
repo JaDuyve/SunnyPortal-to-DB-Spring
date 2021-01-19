@@ -7,11 +7,14 @@ import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model
 import jari.duyvejonck.sunnyportaltodbspring.persistance.Measurement;
 import jari.duyvejonck.sunnyportaltodbspring.persistance.MeasurementRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,13 +25,23 @@ import java.util.stream.Collectors;
 @Service
 public class MeasurementUpdateJob {
 
+    private static final String START_DATE = "sunny-portal.start-date";
+
+    private static final String DATE_FORMAT = "dd-MM-yyyy";
+
     private final SPLookupRestApi measurementRestApi;
     private final MeasurementRepository measurementRepository;
 
+    private final LocalDateTime startDate;
+
     public MeasurementUpdateJob(final SPLookupRestApi measurementRestApi,
-                                final MeasurementRepository measurementRepository) {
+                                final MeasurementRepository measurementRepository,
+                                @Value("${" + START_DATE + "}") final String startDate) {
         this.measurementRestApi = measurementRestApi;
         this.measurementRepository = measurementRepository;
+
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        this.startDate = LocalDate.parse(startDate, formatter).atStartOfDay();
     }
 
     @PostConstruct
@@ -45,7 +58,6 @@ public class MeasurementUpdateJob {
         }
 
         final List<SPPlant> retrievedPlants = retrievedOptionalPlants.get();
-
         for (final SPPlant plant : retrievedPlants) {
             updateMeasurementsForPlant(plant);
         }
@@ -53,7 +65,7 @@ public class MeasurementUpdateJob {
 
     private void updateMeasurementsForPlant(final SPPlant plant) {
         final UUID plantOID = plant.getOID();
-        final LocalDateTime latestMeasurementTimestamp = this.measurementRepository.getLatestMeasurementDateForPlant(plantOID);
+        final LocalDateTime latestMeasurementTimestamp = getPeriodStartDate(plantOID);
 
         List<Measurement> measurements = getMeasurementsForPeriod(plant, latestMeasurementTimestamp)
                 .stream()
@@ -63,10 +75,20 @@ public class MeasurementUpdateJob {
         saveMeasurements(measurements);
     }
 
+    private LocalDateTime getPeriodStartDate(final UUID plantOID) {
+        final LocalDateTime latestMeasurementTimestamp = this.measurementRepository.getLatestMeasurementDateForPlant(plantOID);
+
+        if (latestMeasurementTimestamp != null && latestMeasurementTimestamp.isAfter(this.startDate)) {
+            return latestMeasurementTimestamp;
+        } else {
+            return this.startDate;
+        }
+    }
+
     private List<Measurement> getMeasurementsForPeriod(final SPPlant plant,
                                                        final LocalDateTime date) {
         final List<Measurement> measurements = new ArrayList<>();
-        final Duration difference = Duration.between(LocalDateTime.now(), date);
+        final Duration difference = Duration.between(date, LocalDateTime.now());
 
         for (int i = 0; i < difference.toDays(); i++) {
             measurements.addAll(getMeasurementsForDate(plant, date.plusDays(i)));

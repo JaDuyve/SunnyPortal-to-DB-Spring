@@ -3,6 +3,7 @@ package jari.duyvejonck.sunnyportaltodbspring.persistance;
 import jari.duyvejonck.sunnyportaltodbspring.Utils.ConvertUtils;
 import jari.duyvejonck.sunnyportaltodbspring.measurementlookup.sunnyportal.model.SPPlantDayOverview.SPPlantMeasurement;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Data
-@Table(name = "measurement")
+@Entity(name = "measurement")
+@NoArgsConstructor
 public class Measurement {
 
     private static final String TIMESTAMP_FORMAT_PATTERN = "dd/MM/yyyy HH:mm";

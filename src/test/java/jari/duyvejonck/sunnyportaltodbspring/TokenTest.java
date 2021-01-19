@@ -21,12 +21,12 @@ public class TokenTest {
 
     private final static String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
-    private static final String DATE_FORMAT = "M/d/yyyy h:mm:ss a";
+    private static final String DATE_FORMAT = "dd-MM-yyyy HH:mm";
     private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Test
     public void generateTimestamp() {
-        final String exampleDate = "1/8/2021 1:57:39 PM";
+        final String exampleDate = "01-08-2021 00:00";
                  //                 01234567891111111111
                  //                           0123456789
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT).withLocale(Locale.US);

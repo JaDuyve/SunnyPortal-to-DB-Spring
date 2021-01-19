@@ -23,6 +23,9 @@ class MeasurementTest {
         final double max = 0.147;
         final double mean = 0.119;
 
+        final int expectedMin = 94;
+        final int expectedMax = 147;
+        final int expectedMean = 119;
 
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT_PATTERN);
         final LocalDateTime expectedTimestamp = LocalDateTime.parse(date + ' ' + time, formatter);
@@ -38,9 +41,9 @@ class MeasurementTest {
 
         assertEquals(plantOID, measurement.getPlantOID());
         assertEquals(plantName, measurement.getPlantName());
-        assertEquals(min, measurement.getMin());
-        assertEquals(max, measurement.getMax());
-        assertEquals(mean, measurement.getMean());
+        assertEquals(expectedMin, measurement.getMin());
+        assertEquals(expectedMax, measurement.getMax());
+        assertEquals(expectedMean, measurement.getMean());
         assertEquals(expectedTimestamp, measurement.getTimestamp());
     }
 

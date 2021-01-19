@@ -41,7 +41,7 @@ public class SPLookupRestApi {
     public Optional<List<SPPlant>> getPlantList() {
         final String lookupUrl = "https://" + this.config.getBaseUrl() + PLANT_LIST_LOOKUP_ENDPOINT;
         final byte[] response = this.restTemplate.getForObject(lookupUrl, byte[].class);
-        final Optional<SPPlantList> plantList =  SPDeserializer.deserialize(SPPlantList.class, response);
+        final Optional<SPPlantList> plantList = SPDeserializer.deserialize(SPPlantList.class, response);
 
         if (plantList.isEmpty()) {
             return Optional.empty();

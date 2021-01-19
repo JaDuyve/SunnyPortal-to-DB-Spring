@@ -47,7 +47,7 @@ public class AuthenticatedHttpRequest extends SPRequest {
                 .queryParam("timestamp", timestamp)
                 .queryParam("signature-method", SIGNATURE_METHOD)
                 .queryParam("signature-version", SIGNATURE_VERSION)
-                .queryParam("signature", signature)
+                .queryParam("signature", signature.substring(0, signature.length() - 2))
                 .build();
     }
 
@@ -65,8 +65,7 @@ public class AuthenticatedHttpRequest extends SPRequest {
         mac.update(timestamp.getBytes(StandardCharsets.UTF_8));
         mac.update(identifier.getBytes(StandardCharsets.UTF_8));
 
-        return Base64.encodeBase64String(mac.doFinal())
-                .replace("\r\n", "");
+        return Base64.encodeBase64String(mac.doFinal());
     }
 
     private String extractServiceOfPath(final String path) {
